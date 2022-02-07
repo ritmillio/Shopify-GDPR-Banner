@@ -1,0 +1,49 @@
+{% comment %}
+This cookie bar was created with Tailiwndcss and Shopify Liquid
+{% endcomment %}
+{% comment %}Delete Tailwindcss and Fontawesome CDN before production{% endcomment %}
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://use.fontawesome.com/c0ecc55053.js"></script>
+
+<script>
+//accept terms
+let popUp = document.getElementById("cookiePopup");
+document.getElementById("acceptCookie").addEventListener("click", () => {
+  let d = new Date();
+  d.setMinutes(2 + d.getMinutes());
+  document.cookie = "myCookieName=thisIsMyCookie; expires = " + d + ";";
+  popUp.classList.add("invisible");
+  popUp.classList.remove("visible");
+});
+
+const checkCookie = () => {
+  //Read the cookie and split on "="
+  let input = document.cookie.split("=");
+  //Check for our cookie
+  if (input[0] == "myCookieName") {
+    popUp.classList.add("invisible");
+    popUp.classList.remove("visible");
+  } else {
+    popUp.classList.add("visible");
+    popUp.classList.remove("invisible");
+  }
+};
+
+//Check if cookie exists when page loads
+window.onload = () => {
+  setTimeout(() => {
+    checkCookie();
+  }, 2000);
+};
+
+</script>
+{% comment %}inset-0 --> center of screen, inset-x-0 bottom-0 --> bottom of the screen(full-w), bottom-0 right-0 --> right corner of the screen{% endcomment %}
+<div id="cookiePopup" class="absolute inset-0 w-8/12 max-w-screen-sm bg-white rounded-md text-sm leading-7 px-6 py-8 text-justify">
+    <i class="fas fa-cookie-bite w-40"></i>
+    <p class="text-center mx-0 my-6">
+    {{ shop.name }} uses cookies to provide your browsing experience and
+    relevant information. Before continuing to use our website, you agree &
+    accept of our <a href="{% comment %}your slug to privacy policy page{% endcomment %}" class="text-blue-500">Cookie Policy & Privacy.</a>
+    </p>
+    <button id="acceptCookie" class="bg-red-500 rounded block text-xl m-auto py-4 px-6 relative text-white">Accept</button>
+</div>
